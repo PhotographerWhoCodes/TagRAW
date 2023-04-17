@@ -19,8 +19,8 @@ if [ ! -d "$dirB" ]; then
 fi
 
 # Find all yellow files in filepath A
-# yellow_files=$(mdfind "kMDItemUserTags == 'Yellow'" -onlyin "$dirA" | xargs -I{} basename {} | sed 's/\.[^.]*$//')
-yellow_files=$(mdfind "kMDItemUserTags == 'Yellow'" -onlyin "$dirA" | xargs -I{} basename {} | sed 's/\.[^.]*$//')
+# yellow_files=$(mdfind "kMDItemUserTags == 'Yellow'" -onlyin "$dirA" | xargs -I{} basename {} | sed 's/\.[^.]*$//') // this doesn't work with SD card formatted exFAT
+yellow_files=$(find "$dirA" -name "*.JPG" -execdir bash -c 'mdls -name kMDItemUserTags "$0" | grep -q "Yellow" && echo "$0"' {} \; | sed 's/\.[^.]*$//')
 echo "Yellow files in directory A:"
 echo "$yellow_files"
 
